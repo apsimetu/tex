@@ -73,9 +73,7 @@ while ($row = mysqli_fetch_assoc($query)) {
 
 <?php
 
-while($row = mysqli_fetch_array($result))
 while ($row = mysqli_fetch_assoc($sql)) {
-{
 
 if ($row['status'] == 'Laimėta') { $style = 'background-color: #67FEA3'; }
 if ($row['status'] == 'Pralaimėta') { $style = 'background-color: #FF4040'; }
@@ -112,7 +110,7 @@ if ($fb[0]->like_count <= $row['like_count']) { ?>
 echo "<td>" . $row['koef'] . "</td>";
 echo "<td><b>" . $row['status'] . "</b></td>";
 echo "</tr>";
-} }
+ }
 echo "</table>";
 
 $sql =  mysqli_query ($con, "SELECT COUNT(id) FROM bets");
