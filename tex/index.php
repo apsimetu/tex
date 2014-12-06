@@ -28,6 +28,10 @@ while ($row = mysqli_fetch_assoc($query)) {
     $headerStats[$row['status']] = $row['number'];
 }
 
+$contentRows = [];
+while ($row = mysqli_fetch_assoc($sql)) {
+    $contentRows[] = $row;
+}
 
 ?>
 <!DOCTYPE HTML>
@@ -71,46 +75,46 @@ while ($row = mysqli_fetch_assoc($query)) {
                 <th>Būsena</th>
             </tr>
 
+            <?php foreach ($contentRows as $row): ?>
+
+                <?php
+
+                if ($row['status'] == 'Laimėta') { $style = 'background-color: #67FEA3'; }
+                if ($row['status'] == 'Pralaimėta') { $style = 'background-color: #FF4040'; }
+                if ($row['status'] == 'Grąžinta') { $style = 'background-color: #0E67DB'; }
+                if ($row['status'] == 'Laukiama') { $style = ''; }
+
+                ?>
+
+                <tr style="<?= $style ?>">
+                    <td><?= $row['id'] ?></td>
+                    <td><?= (new DateTime($row['date']))->format('Y-m-d') ?></td>
+                    <td><a href="tipster.php?author=<?= $row['author'] ?>"><?= $row['author'] ?></a></td>
+                    <td><a href="category.php?sport=<?= $row['sport'] ?>"><?= $row['sport'] ?></a></td>
+                    <td><?= $row['matchas'] ?></td>
+                    <td>
+                        <?php
+
+                        $fb = facebook_count("http://nimbo.lt/tex/".$row['id']."/");
+                        $likas = $fb[0]->like_count;
+
+                        ?>
+                        <?php if ($fb[0]->like_count <= $row['like_count']): ?>
+                            <iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Fnimbo.lt%2Ftex%2F<?= $row['id'] ?>%2F&amp;width&amp;layout=button_count&amp;action=like&amp;show_faces=true&amp;share=false&amp;height=80" scrolling="no" frameborder="0" style="border:none; overflow:hidden; height:20px;width:100px;" allowTransparency="true"></iframe>
+                        <?php else: ?>
+                            <?= $row['bet'] ?>
+                        <?php endif; ?>
+
+                    </td>
+                    <td><?= $row['koef'] ?></td>
+                    <td><?= $row['status'] ?></td>
+                </tr>
+
+            <?php endforeach; ?>
+
+        </table>
+
 <?php
-
-while ($row = mysqli_fetch_assoc($sql)) {
-
-if ($row['status'] == 'Laimėta') { $style = 'background-color: #67FEA3'; }
-if ($row['status'] == 'Pralaimėta') { $style = 'background-color: #FF4040'; }
-if ($row['status'] == 'Grąžinta') { $style = 'background-color: #0E67DB'; }
-if ($row['status'] == 'Laukiama') { $style = ''; }
-
-echo "<tr style='".$style."'>";
-echo "<td>" . $row['id'] . "</td>";
-echo "<td>" . (new DateTime($row['date']))->format('Y-m-d') . "</td>";
-echo "<td><a href='tipster.php?author=" . $row['author'] . "'>" . $row['author'] . "</a></td>";
-echo "<td><a href='category.php?sport=" . $row['sport'] . "'>".$row['sport'] . "</a></td>";
-echo "<td>" . $row['matchas'] . "</td>";
-?>
-
-<td>
-<?php
-
-	$fb = facebook_count("http://nimbo.lt/tex/".$row['id']."/");
-	$likas = $fb[0]->like_count;
-	
-// facebook like count
-if ($fb[0]->like_count <= $row['like_count']) { ?>
-	<iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Fnimbo.lt%2Ftex%2F<?php echo $row['id']; ?>%2F&amp;width&amp;layout=button_count&amp;action=like&amp;show_faces=true&amp;share=false&amp;height=80" scrolling="no" frameborder="0" style="border:none; overflow:hidden; height:20px;width:100px;" allowTransparency="true"></iframe>
-<?php
-} else {
-	echo "" . $row['bet'] . "";
-}
-
-?>
-	</td>
-<?php
-echo "<td>" . $row['koef'] . "</td>";
-echo "<td><b>" . $row['status'] . "</b></td>";
-echo "</tr>";
- }
-echo "</table>";
-
 $sql =  mysqli_query ($con, "SELECT COUNT(id) FROM bets");
 $row = mysqli_fetch_row($sql);
 $total_records = $row[0];
