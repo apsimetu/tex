@@ -5,9 +5,13 @@ require_once __DIR__.'/../vendor/autoload.php';
 $app = new Silex\Application();
 $app['debug'] = true;
 
-$app->get('/', function () {
+$app->register(new Silex\Provider\TwigServiceProvider(), [
+    'twig.path' => __DIR__.'/views',
+]);
 
-    return "Bandom Silex";
+$app->get('/', function () use ($app) {
+
+    return $app['twig']->render('index.twig');
 
 });
 
