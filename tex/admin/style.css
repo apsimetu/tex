@@ -1,0 +1,75 @@
+body { 
+	background:url("http://www.cuded.com/wp-content/uploads/2013/12/14-Twitter-Background-Change-New-Modern-Clothes-Blue-Pattern-Design.jpg");
+	margin:0 auto;
+}
+
+}
+body, td, th, input, textarea, select, a {
+	font-size: 12px;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+#container {
+width:980px;
+margin:0 auto;
+}
+
+#menu {
+background: rgb(169,3,41); /* Old browsers */
+background: -moz-radial-gradient(center, ellipse cover,  rgba(169,3,41,1) 0%, rgba(143,2,34,1) 44%, rgba(109,0,25,1) 100%); /* FF3.6+ */
+background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,rgba(169,3,41,1)), color-stop(44%,rgba(143,2,34,1)), color-stop(100%,rgba(109,0,25,1))); /* Chrome,Safari4+ */
+background: -webkit-radial-gradient(center, ellipse cover,  rgba(169,3,41,1) 0%,rgba(143,2,34,1) 44%,rgba(109,0,25,1) 100%); /* Chrome10+,Safari5.1+ */
+background: -o-radial-gradient(center, ellipse cover,  rgba(169,3,41,1) 0%,rgba(143,2,34,1) 44%,rgba(109,0,25,1) 100%); /* Opera 12+ */
+background: -ms-radial-gradient(center, ellipse cover,  rgba(169,3,41,1) 0%,rgba(143,2,34,1) 44%,rgba(109,0,25,1) 100%); /* IE10+ */
+background: radial-gradient(ellipse at center,  rgba(169,3,41,1) 0%,rgba(143,2,34,1) 44%,rgba(109,0,25,1) 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a90329', endColorstr='#6d0019',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+}
+
+#menu ul {
+list-style:none;
+}
+
+#menu li {
+display:inline-block;
+width:30%;
+text-align:center;
+
+line-height:50px;
+}
+#menu li a {
+	color:#fff;
+	font-weight:bold;
+	text-transform:uppercase;
+	text-decoration:none;
+	height:50px;
+	padding:20px 3px;
+}
+#menu li:hover a {
+background: rgb(168,82,101); /* Old browsers */
+background: -moz-radial-gradient(center, ellipse cover,  rgba(168,82,101,1) 0%, rgba(142,81,94,1) 44%, rgba(107,58,69,1) 100%); /* FF3.6+ */
+background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,rgba(168,82,101,1)), color-stop(44%,rgba(142,81,94,1)), color-stop(100%,rgba(107,58,69,1))); /* Chrome,Safari4+ */
+background: -webkit-radial-gradient(center, ellipse cover,  rgba(168,82,101,1) 0%,rgba(142,81,94,1) 44%,rgba(107,58,69,1) 100%); /* Chrome10+,Safari5.1+ */
+background: -o-radial-gradient(center, ellipse cover,  rgba(168,82,101,1) 0%,rgba(142,81,94,1) 44%,rgba(107,58,69,1) 100%); /* Opera 12+ */
+background: -ms-radial-gradient(center, ellipse cover,  rgba(168,82,101,1) 0%,rgba(142,81,94,1) 44%,rgba(107,58,69,1) 100%); /* IE10+ */
+background: radial-gradient(ellipse at center,  rgba(168,82,101,1) 0%,rgba(142,81,94,1) 44%,rgba(107,58,69,1) 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a85265', endColorstr='#6b3a45',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+height:50px;
+}
+#content {
+	background:#f1f1f1;
+	min-height:200px;
+	margin-top:20px;
+	border-radius:10px;
+	padding:10px;
+	margin:0 auto;
+	width:100%;
+}
+
+table,tbody,tr,td {
+padding:5px;
+text-align:center;
+}
+
+select {
+	width:100%;
+}
