@@ -41,6 +41,11 @@
 
         </table>
 
+        <center>
+            {% for i in 1..numberOfPages %}
+                <a href="index.php?page={{ i }}" class="page gradient">{{ i }}</a>
+            {% endfor %}
+        </center>
 
     </div>
 

@@ -25,8 +25,12 @@ $app->get('/', function () use ($app, $con) {
         $headerStats[$row['status']] = $row['number'];
     }
 
+    $result = mysqli_query($con, "SELECT id FROM bets");
+    $numberOfPages = ceil(mysqli_num_rows($result) / 5);
+
     return $app['twig']->render('index.twig', [
         'headerStats' => $headerStats,
+        'numberOfPages' => $numberOfPages,
     ]);
 
 });
