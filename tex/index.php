@@ -10,10 +10,8 @@ $start_from = ($page-1) * 5;
 $sql =  mysqli_query ($con, "SELECT * FROM bets ORDER BY date DESC LIMIT $start_from, 5");
 
 function getNumberOfPages($con) {
-    $sql =  mysqli_query($con, "SELECT COUNT(id) FROM bets");
-    $row = mysqli_fetch_row($sql);
-    $total_records = $row[0];
-    return ceil($total_records / 5);
+    $result = mysqli_query($con, "SELECT id FROM bets");
+    return ceil(mysqli_num_rows($result) / 5);
 }
 
 function facebook_count($url){
