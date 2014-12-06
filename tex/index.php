@@ -133,14 +133,15 @@ while ($row = mysqli_fetch_assoc($sql)) {
             <?php endfor; ?>
         </center>
 
-</div>
-	<div id="push"></div>
+    </div>
+
+    <div id="push"></div>
+
 </div>
 
 <div id="footer">
-	<center>&copy; 2014 Martynas Stirbys</center>
+    <center>&copy; 2014 Martynas Stirbys</center>
 </div>
-
 
 </body>
 </html>
