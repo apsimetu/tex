@@ -1,3 +1,35 @@
+<?php
+
+include "db.inc.php";
+$result = mysqli_query($con,"SELECT * FROM bets ORDER BY id DESC");
+
+$query = mysqli_query($con,"SELECT status, COUNT(*) as number FROM bets WHERE status IN ('Laukiama','Laimėta','Pralaimėta','Grąžinta') GROUP BY status");
+
+if (isset($_GET["page"])) { $page  = $_GET["page"]; } else { $page=1; };
+$start_from = ($page-1) * 5;
+$sql =  mysqli_query ($con, "SELECT * FROM bets ORDER BY date DESC LIMIT $start_from, 5");
+
+function facebook_count($url){
+
+    // Query in FQL
+    $fql  = "SELECT share_count, like_count, comment_count ";
+    $fql .= " FROM link_stat WHERE url = '$url'";
+
+    $fqlURL = "https://api.facebook.com/method/fql.query?format=json&query=" . urlencode($fql);
+
+    // Facebook Response is in JSON
+    $response = file_get_contents($fqlURL);
+    return json_decode($response);
+
+}
+
+$headerStats = [];
+while ($row = mysqli_fetch_assoc($query)) {
+    $headerStats[$row['status']] = $row['number'];
+}
+
+
+?>
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -17,57 +49,30 @@
 		</div>
 	</div>
 
-<?php
-include "db.inc.php";
-$result = mysqli_query($con,"SELECT * FROM bets ORDER BY id DESC");
+    <div id="stats">
 
-$query = mysqli_query($con,"SELECT status, COUNT(*) as number FROM bets WHERE status IN ('Laukiama','Laimėta','Pralaimėta','Grąžinta') GROUP BY status");
+        <?php foreach ($headerStats as $status => $count): ?>
+            <b><font><?= $status ?>: <?= $count ?></font></b>
+        <?php endforeach; ?>
 
-if (isset($_GET["page"])) { $page  = $_GET["page"]; } else { $page=1; };
-$start_from = ($page-1) * 5;
-$sql =  mysqli_query ($con, "SELECT * FROM bets ORDER BY date DESC LIMIT $start_from, 5");
+    </div>
 
-function facebook_count($url){
- 
-    // Query in FQL
-    $fql  = "SELECT share_count, like_count, comment_count ";
-    $fql .= " FROM link_stat WHERE url = '$url'";
- 
-    $fqlURL = "https://api.facebook.com/method/fql.query?format=json&query=" . urlencode($fql);
- 
-    // Facebook Response is in JSON
-    $response = file_get_contents($fqlURL);
-    return json_decode($response);
- 
-}
+    <div id='content'>
 
-?>
-<div id="stats">
-
-<?php while ($row = mysqli_fetch_assoc($query)) {
-    echo '<b><font>' . $row['status'] . ': ' . $row['number'] . '</font></b>';
-}?>
-
-
-</div>
+        <table border='1'>
+            <tr>
+                <th style='width:5px;'>Nr.</th>
+                <th>Data</th>
+                <th>Tipsteris</th>
+                <th>Šaka</th>
+                <th>Įvykis</th>
+                <th>Pasirinkimas</th>
+                <th>Koef</th>
+                <th>Būsena</th>
+            </tr>
 
 <?php
-echo "
-<div id='content'>
 
-<table border='1'>
-		<tr>
-			<th style='width:5px;'>Nr.</th>
-			<th>Data</th>
-			<th>Tipsteris</th>
-			<th>Šaka</th>
-			<th>Įvykis</th>
-			<th>Pasirinkimas</th>
-			<th>Koef</th>
-			<th>Būsena</th>
-		</tr>";
-
-		
 while($row = mysqli_fetch_array($result))
 while ($row = mysqli_fetch_assoc($sql)) {
 {
