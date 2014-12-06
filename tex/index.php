@@ -9,6 +9,13 @@ if (isset($_GET["page"])) { $page  = $_GET["page"]; } else { $page=1; };
 $start_from = ($page-1) * 5;
 $sql =  mysqli_query ($con, "SELECT * FROM bets ORDER BY date DESC LIMIT $start_from, 5");
 
+function getNumberOfPages($con) {
+    $sql =  mysqli_query($con, "SELECT COUNT(id) FROM bets");
+    $row = mysqli_fetch_row($sql);
+    $total_records = $row[0];
+    return ceil($total_records / 5);
+}
+
 function facebook_count($url){
 
     // Query in FQL
@@ -120,25 +127,16 @@ while ($row = mysqli_fetch_assoc($sql)) {
 
         </table>
 
-<?php
-$sql =  mysqli_query ($con, "SELECT COUNT(id) FROM bets");
-$row = mysqli_fetch_row($sql);
-$total_records = $row[0];
-$total_pages = ceil($total_records / 5);
-  
- echo" <center>";
-for ($i=1; $i<=$total_pages; $i++) {
-echo "<a href='index.php?page=".$i."' class='page gradient'>".$i."</a>";
-};
-echo "</center>";
-
-mysqli_close($con);
-?>
-	
+        <center>
+            <?php for ($i = 1; $i <= getNumberOfPages($con); $i++): ?>
+                <a href="index.php?page=<?= $i ?>" class="page gradient"><?= $i ?></a>
+            <?php endfor; ?>
+        </center>
 
 </div>
 	<div id="push"></div>
 </div>
+
 <div id="footer">
 	<center>&copy; 2014 Martynas Stirbys</center>
 </div>
