@@ -19,6 +19,10 @@
 
     <div id="stats">
 
+        {% for status, count in headerStats %}
+            <b><font>{{ status }}: {{ count }}</font></b>
+        {% endfor %}
+
     </div>
 
     <div id="content">

@@ -9,9 +9,25 @@ $app->register(new Silex\Provider\TwigServiceProvider(), [
     'twig.path' => __DIR__.'/views',
 ]);
 
-$app->get('/', function () use ($app) {
+$con = mysqli_connect('localhost', 'nimbo_tex', 'tex', 'nimbo_tex');
 
-    return $app['twig']->render('index.twig');
+if (!$con) {
+    printf("Connect failed: %s\n", mysqli_connect_error());
+    exit();
+}
+
+$app->get('/', function () use ($app, $con) {
+
+    $query = mysqli_query($con,"SELECT status, COUNT(*) as number FROM bets WHERE status IN ('Laukiama','Laimėta','Pralaimėta','Grąžinta') GROUP BY status");
+
+    $headerStats = [];
+    while ($row = mysqli_fetch_assoc($query)) {
+        $headerStats[$row['status']] = $row['number'];
+    }
+
+    return $app['twig']->render('index.twig', [
+        'headerStats' => $headerStats,
+    ]);
 
 });
 
