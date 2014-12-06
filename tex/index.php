@@ -38,6 +38,13 @@ function getRowStyle($rowStatus) {
     }
 }
 
+function toLikeOrNotToLike($rowId, $likeCount) {
+    $fb = facebook_count("http://nimbo.lt/tex/{$rowId}/");
+
+    return $fb[0]->like_count <= $likeCount;
+}
+
+
 $headerStats = [];
 while ($row = mysqli_fetch_assoc($query)) {
     $headerStats[$row['status']] = $row['number'];
@@ -99,18 +106,11 @@ while ($row = mysqli_fetch_assoc($sql)) {
                     <td><a href="category.php?sport=<?= $row['sport'] ?>"><?= $row['sport'] ?></a></td>
                     <td><?= $row['matchas'] ?></td>
                     <td>
-                        <?php
-
-                        $fb = facebook_count("http://nimbo.lt/tex/".$row['id']."/");
-                        $likas = $fb[0]->like_count;
-
-                        ?>
-                        <?php if ($fb[0]->like_count <= $row['like_count']): ?>
+                        <?php if (toLikeOrNotToLike($row['id'], $row['like_count'])): ?>
                             <iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Fnimbo.lt%2Ftex%2F<?= $row['id'] ?>%2F&amp;width&amp;layout=button_count&amp;action=like&amp;show_faces=true&amp;share=false&amp;height=80" scrolling="no" frameborder="0" style="border:none; overflow:hidden; height:20px;width:100px;" allowTransparency="true"></iframe>
                         <?php else: ?>
                             <?= $row['bet'] ?>
                         <?php endif; ?>
-
                     </td>
                     <td><?= $row['koef'] ?></td>
                     <td><?= $row['status'] ?></td>
