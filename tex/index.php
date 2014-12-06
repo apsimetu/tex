@@ -80,11 +80,9 @@ if ($row['status'] == 'Pralaimėta') { $style = 'background-color: #FF4040'; }
 if ($row['status'] == 'Grąžinta') { $style = 'background-color: #0E67DB'; }
 if ($row['status'] == 'Laukiama') { $style = ''; }
 
-$row['date'] = date('Y-m-d');
-
 echo "<tr style='".$style."'>";
 echo "<td>" . $row['id'] . "</td>";
-echo "<td>" . $row['date'] . "</td>";
+echo "<td>" . (new DateTime($row['date']))->format('Y-m-d') . "</td>";
 echo "<td><a href='tipster.php?author=" . $row['author'] . "'>" . $row['author'] . "</a></td>";
 echo "<td><a href='category.php?sport=" . $row['sport'] . "'>".$row['sport'] . "</a></td>";
 echo "<td>" . $row['matchas'] . "</td>";
