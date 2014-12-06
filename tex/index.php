@@ -23,6 +23,21 @@ function facebook_count($url){
 
 }
 
+function getRowStyle($rowStatus) {
+    if ($rowStatus == 'Laimėta') {
+        return 'background-color: #67FEA3';
+    }
+    if ($rowStatus == 'Pralaimėta') {
+        return 'background-color: #FF4040';
+    }
+    if ($rowStatus == 'Grąžinta') {
+        return 'background-color: #0E67DB';
+    }
+    if ($rowStatus == 'Laukiama') {
+        return '';
+    }
+}
+
 $headerStats = [];
 while ($row = mysqli_fetch_assoc($query)) {
     $headerStats[$row['status']] = $row['number'];
@@ -77,16 +92,7 @@ while ($row = mysqli_fetch_assoc($sql)) {
 
             <?php foreach ($contentRows as $row): ?>
 
-                <?php
-
-                if ($row['status'] == 'Laimėta') { $style = 'background-color: #67FEA3'; }
-                if ($row['status'] == 'Pralaimėta') { $style = 'background-color: #FF4040'; }
-                if ($row['status'] == 'Grąžinta') { $style = 'background-color: #0E67DB'; }
-                if ($row['status'] == 'Laukiama') { $style = ''; }
-
-                ?>
-
-                <tr style="<?= $style ?>">
+                <tr style="<?= getRowStyle($row['status']) ?>">
                     <td><?= $row['id'] ?></td>
                     <td><?= (new DateTime($row['date']))->format('Y-m-d') ?></td>
                     <td><a href="tipster.php?author=<?= $row['author'] ?>"><?= $row['author'] ?></a></td>
