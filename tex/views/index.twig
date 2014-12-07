@@ -43,7 +43,7 @@
 
                 <tr>
                     <td>{{ bet['id'] }}</td>
-                    <td></td>
+                    <td>{{ bet['date']|date('Y-m-d') }}</td>
                     <td><a href="tipster.php?author={{ bet['author'] }}">{{ bet['author'] }}</a></td>
                     <td><a href="category.php?sport={{ bet['sport'] }}">{{ bet['sport'] }}</a></td>
                     <td>{{ bet['matchas'] }}</td>
