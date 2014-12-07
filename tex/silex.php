@@ -19,13 +19,6 @@ $app->register(new Silex\Provider\DoctrineServiceProvider(), [
    ]
 ]);
 
-$con = mysqli_connect('localhost', 'nimbo_tex', 'tex', 'nimbo_tex');
-
-if (!$con) {
-    printf("Connect failed: %s\n", mysqli_connect_error());
-    exit();
-}
-
 $app->get('/', function () use ($app, $con) {
 
     $sql = "SELECT status, COUNT(id) AS number FROM bets GROUP BY status";
