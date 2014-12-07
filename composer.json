@@ -1,4 +1,7 @@
 {
+    "autoload": {
+        "psr-4": {"tex\\": "tex/"}
+    },
     "require": {
         "silex/silex": "~1.1",
         "twig/twig": ">=1.8,<2.0-dev",
