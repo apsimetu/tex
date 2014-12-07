@@ -16,7 +16,6 @@ $app->register(new Silex\Provider\DoctrineServiceProvider(), [
        'user' => 'nimbo_tex',
        'password' => 'tex',
        'dbname' => 'nimbo_tex',
-       'charset' => 'utf8',
    ]
 ]);
 
@@ -29,10 +28,11 @@ if (!$con) {
 
 $app->get('/', function () use ($app, $con) {
 
-    $query = mysqli_query($con,"SELECT status, COUNT(*) as number FROM bets WHERE status IN ('Laukiama','Laimėta','Pralaimėta','Grąžinta') GROUP BY status");
+    $sql = "SELECT status, COUNT(id) AS number FROM bets GROUP BY status";
+    $stmt = $app['db']->query($sql);
 
     $headerStats = [];
-    while ($row = mysqli_fetch_assoc($query)) {
+    while ($row = $stmt->fetch()) {
         $headerStats[$row['status']] = $row['number'];
     }
 
