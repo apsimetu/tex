@@ -28,9 +28,19 @@ $app->get('/', function () use ($app, $con) {
     $result = mysqli_query($con, "SELECT id FROM bets");
     $numberOfPages = ceil(mysqli_num_rows($result) / 5);
 
+    if (isset($_GET["page"])) { $page  = $_GET["page"]; } else { $page=1; };
+    $start_from = ($page-1) * 5;
+    $sql = mysqli_query ($con, "SELECT * FROM bets ORDER BY date DESC LIMIT $start_from, 5");
+
+    $bets = [];
+    while ($row = mysqli_fetch_assoc($sql)) {
+        $bets[] = $row;
+    }
+
     return $app['twig']->render('index.twig', [
         'headerStats' => $headerStats,
         'numberOfPages' => $numberOfPages,
+        'bets' => $bets,
     ]);
 
 });

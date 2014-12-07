@@ -39,6 +39,21 @@
                 <th>Būsena</th>
             </tr>
 
+            {% for bet in bets %}
+
+                <tr>
+                    <td>{{ bet['id'] }}</td>
+                    <td></td>
+                    <td><a href="tipster.php?author={{ bet['author'] }}">{{ bet['author'] }}</a></td>
+                    <td><a href="category.php?sport={{ bet['sport'] }}">{{ bet['sport'] }}</a></td>
+                    <td>{{ bet['matchas'] }}</td>
+                    <td></td>
+                    <td>{{ bet['koef'] }}</td>
+                    <td>{{ bet['status'] }}</td>
+                </tr>
+
+            {% endfor %}
+
         </table>
 
         <center>
