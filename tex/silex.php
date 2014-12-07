@@ -29,12 +29,7 @@ if (!$con) {
 $app->get('/', function () use ($app, $con) {
 
     $sql = "SELECT status, COUNT(id) AS number FROM bets GROUP BY status";
-    $stmt = $app['db']->query($sql);
-
-    $headerStats = [];
-    while ($row = $stmt->fetch()) {
-        $headerStats[$row['status']] = $row['number'];
-    }
+    $headerStats = $app['db']->fetchAll($sql);
 
     $result = mysqli_query($con, "SELECT id FROM bets");
     $numberOfPages = ceil(mysqli_num_rows($result) / 5);

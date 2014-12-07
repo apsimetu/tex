@@ -19,8 +19,8 @@
 
     <div id="stats">
 
-        {% for status, count in headerStats %}
-            <b><font>{{ status }}: {{ count }}</font></b>
+        {% for stat in headerStats %}
+            <b><font>{{ stat['status'] }}: {{ stat['number'] }}</font></b>
         {% endfor %}
 
     </div>
