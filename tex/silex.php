@@ -9,6 +9,17 @@ $app->register(new Silex\Provider\TwigServiceProvider(), [
     'twig.path' => __DIR__.'/views',
 ]);
 
+$app->register(new Silex\Provider\DoctrineServiceProvider(), [
+   'db.options' => [
+       'driver' => 'pdo_mysql',
+       'host' => 'localhost',
+       'user' => 'nimbo_tex',
+       'password' => 'tex',
+       'dbname' => 'nimbo_tex',
+       'charset' => 'utf8',
+   ]
+]);
+
 $con = mysqli_connect('localhost', 'nimbo_tex', 'tex', 'nimbo_tex');
 
 if (!$con) {
