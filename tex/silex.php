@@ -31,8 +31,8 @@ $app->get('/', function () use ($app, $con) {
     $sql = "SELECT status, COUNT(id) AS number FROM bets GROUP BY status";
     $headerStats = $app['db']->fetchAll($sql);
 
-    $result = mysqli_query($con, "SELECT id FROM bets");
-    $numberOfPages = ceil(mysqli_num_rows($result) / 5);
+    $numberOfBets = $app['db']->executeQuery("SELECT id FROM bets")->rowCount();
+    $numberOfPages = ceil($numberOfBets / 5);
 
     if (isset($_GET["page"])) { $page  = $_GET["page"]; } else { $page=1; };
     $start_from = ($page-1) * 5;
