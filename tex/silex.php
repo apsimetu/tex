@@ -36,12 +36,12 @@ $app->get('/', function () use ($app, $con) {
 
     if (isset($_GET["page"])) { $page  = $_GET["page"]; } else { $page=1; };
     $start_from = ($page-1) * 5;
-    $sql = mysqli_query ($con, "SELECT * FROM bets ORDER BY date DESC LIMIT $start_from, 5");
 
-    $bets = [];
-    while ($row = mysqli_fetch_assoc($sql)) {
-        $bets[] = $row;
-    }
+    $stmt = $app['db']->prepare("SELECT * FROM bets ORDER BY date DESC LIMIT :offset, :limit");
+    $stmt->bindValue('offset', $start_from, PDO::PARAM_INT);
+    $stmt->bindValue('limit', 5, PDO::PARAM_INT);
+    $stmt->execute();
+    $bets = $stmt->fetchAll();
 
     $fbTest = new Twig_SimpleFunction('showLikeButton', function($betId, $likeCount) {
         $url = "http://nimbo.lt/tex/{$betId}/";
