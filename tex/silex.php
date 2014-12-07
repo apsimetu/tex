@@ -2,6 +2,8 @@
 
 require_once __DIR__.'/../vendor/autoload.php';
 
+use Symfony\Component\HttpFoundation\Request;
+
 $app = new Silex\Application();
 $app['debug'] = true;
 
@@ -19,7 +21,7 @@ $app->register(new Silex\Provider\DoctrineServiceProvider(), [
    ]
 ]);
 
-$app->get('/', function () use ($app, $con) {
+$app->get('/', function (Request $request) use ($app) {
 
     $sql = "SELECT status, COUNT(id) AS number FROM bets GROUP BY status";
     $headerStats = $app['db']->fetchAll($sql);
@@ -27,7 +29,7 @@ $app->get('/', function () use ($app, $con) {
     $numberOfBets = $app['db']->executeQuery("SELECT id FROM bets")->rowCount();
     $numberOfPages = ceil($numberOfBets / 5);
 
-    if (isset($_GET["page"])) { $page  = $_GET["page"]; } else { $page=1; };
+    $page = $request->get('page', 1);
     $start_from = ($page-1) * 5;
 
     $stmt = $app['db']->prepare("SELECT * FROM bets ORDER BY date DESC LIMIT :offset, :limit");
