@@ -37,6 +37,22 @@ $app->get('/', function () use ($app, $con) {
         $bets[] = $row;
     }
 
+    $fbTest = new Twig_SimpleFunction('showLikeButton', function($betId, $likeCount) {
+        $url = "http://nimbo.lt/tex/{$betId}/";
+
+        $fql  = "SELECT share_count, like_count, comment_count ";
+        $fql .= " FROM link_stat WHERE url = '{$url}'";
+
+        $fqlURL = "https://api.facebook.com/method/fql.query?format=json&query=" . urlencode($fql);
+
+        $response = json_decode(file_get_contents($fqlURL));
+        $fbLikeCount = $response[0]->like_count;
+
+        return $fbLikeCount <= $likeCount;
+    });
+
+    $app['twig']->addFunction($fbTest);
+
     return $app['twig']->render('index.twig', [
         'headerStats' => $headerStats,
         'numberOfPages' => $numberOfPages,

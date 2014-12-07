@@ -47,7 +47,13 @@
                     <td><a href="tipster.php?author={{ bet['author'] }}">{{ bet['author'] }}</a></td>
                     <td><a href="category.php?sport={{ bet['sport'] }}">{{ bet['sport'] }}</a></td>
                     <td>{{ bet['matchas'] }}</td>
-                    <td></td>
+                    <td>
+                        {% if showLikeButton(bet['id'], bet['like_count']) %}
+                            <iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Fnimbo.lt%2Ftex%2F{{ bet['id'] }}%2F&amp;width&amp;layout=button_count&amp;action=like&amp;show_faces=true&amp;share=false&amp;height=80" scrolling="no" frameborder="0" style="border:none; overflow:hidden; height:20px;width:100px;" allowTransparency="true"></iframe>
+                        {% else %}
+                            {{ bet['bet'] }}
+                        {% endif %}
+                    </td>
                     <td>{{ bet['koef'] }}</td>
                     <td>{{ bet['status'] }}</td>
                 </tr>
