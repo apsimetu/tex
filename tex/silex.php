@@ -26,22 +26,20 @@ $app->register(new Silex\Provider\DoctrineServiceProvider(), [
    ]
 ]);
 
+$app['repository'] = $app->share(function($app) {
+    return new tex\utils\Repository($app['db']);
+});
+
 $app->get('/', function (Request $request) use ($app) {
 
-    $sql = "SELECT status, COUNT(id) AS number FROM bets GROUP BY status";
-    $headerStats = $app['db']->fetchAll($sql);
+    $headerStats = $app['repository']->getHeaderStats();
 
-    $numberOfBets = $app['db']->executeQuery("SELECT id FROM bets")->rowCount();
-    $numberOfPages = ceil($numberOfBets / 5);
+    $numberOfPages = $app['repository']->getNumberOfPages();
 
     $page = $request->get('page', 1);
     $start_from = ($page-1) * 5;
 
-    $stmt = $app['db']->prepare("SELECT * FROM bets ORDER BY date DESC LIMIT :offset, :limit");
-    $stmt->bindValue('offset', $start_from, PDO::PARAM_INT);
-    $stmt->bindValue('limit', 5, PDO::PARAM_INT);
-    $stmt->execute();
-    $bets = $stmt->fetchAll();
+    $bets = $app['repository']->getPaginatedBets($start_from, 5);
 
     return $app['twig']->render('index.twig', [
         'headerStats' => $headerStats,
