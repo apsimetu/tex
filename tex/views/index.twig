@@ -41,7 +41,7 @@
 
             {% for bet in bets %}
 
-                <tr>
+                <tr class="{{ bet['status'] }}">
                     <td>{{ bet['id'] }}</td>
                     <td>{{ bet['date']|date('Y-m-d') }}</td>
                     <td><a href="tipster.php?author={{ bet['author'] }}">{{ bet['author'] }}</a></td>

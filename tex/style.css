@@ -154,3 +154,16 @@ table a {
 	clear: both;
 	height: 4em;
 }
+
+tr.Laimėta {
+    background-color: #67FEA3;
+}
+tr.Pralaimėta {
+    background-color: #FF4040;
+}
+tr.Grąžinta {
+    background-color: #0E67DB;
+}
+tr.Laukiama {
+
+}
