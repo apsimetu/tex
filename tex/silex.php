@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__.'/../vendor/autoload.php';
+require_once __DIR__.'/utils/TwigExtensions.php';
 
 use Symfony\Component\HttpFoundation\Request;
 
@@ -10,6 +11,11 @@ $app['debug'] = true;
 $app->register(new Silex\Provider\TwigServiceProvider(), [
     'twig.path' => __DIR__.'/views',
 ]);
+
+$app['twig'] = $app->extend('twig', function ($twig, $app) {
+    $twig->addExtension(new tex\utils\TwigExtensions($app));
+    return $twig;
+});
 
 $app->register(new Silex\Provider\DoctrineServiceProvider(), [
    'db.options' => [
@@ -37,22 +43,6 @@ $app->get('/', function (Request $request) use ($app) {
     $stmt->bindValue('limit', 5, PDO::PARAM_INT);
     $stmt->execute();
     $bets = $stmt->fetchAll();
-
-    $fbTest = new Twig_SimpleFunction('showLikeButton', function($betId, $likeCount) {
-        $url = "http://nimbo.lt/tex/{$betId}/";
-
-        $fql  = "SELECT share_count, like_count, comment_count ";
-        $fql .= " FROM link_stat WHERE url = '{$url}'";
-
-        $fqlURL = "https://api.facebook.com/method/fql.query?format=json&query=" . urlencode($fql);
-
-        $response = json_decode(file_get_contents($fqlURL));
-        $fbLikeCount = $response[0]->like_count;
-
-        return $fbLikeCount <= $likeCount;
-    });
-
-    $app['twig']->addFunction($fbTest);
 
     return $app['twig']->render('index.twig', [
         'headerStats' => $headerStats,
